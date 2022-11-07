@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Testing</title>
+</head>
+<body style="background-color: rgb(0, 248, 174);">
+
+
+<div align="center" style="font-size: 20px;">
+    <h1>This is Firebase Testing</h1>
+    <label style="padding-right: 93px;">Name</label><input id="name" type="text"><br><br>
+    <label style="padding-right: 116px;">ID </label><input id="id" type="text"><br><br>
+    <label style="padding-right: 72px;">Address </label><input id="add" type="text"><br><br>
+    <label style="padding-right: 22px;">Phone Number </label><input id="pn" type="text"><br><br>
+    <label style="padding-right: 97px;">Email </label><input id="email" type="text">
+    <br><br>
+    <button style="margin-left: 60px;" id="insert">Insert</button>
+    <button style="margin-left: 10px;" id="update">Update</button>
+    <button style="margin-left: 10px;" id="search">Search</button>
+    <button style="margin-left: 10px;" id="delete">Delete</button>
+</div>
+
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.13.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.13.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyBQIP11GFHwwtJvkHZFMMyilMVgQKMssqU",
+      authDomain: "js-crud-4235d.firebaseapp.com",
+      projectId: "js-crud-4235d",
+      storageBucket: "js-crud-4235d.appspot.com",
+      messagingSenderId: "880983454768",
+      appId: "1:880983454768:web:ce1fe2164c296bdefda9f5",
+      measurementId: "G-0HEK7RSGEJ"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    //firebase.initializeApp(firebaseConfig);
+// Extra Codes    
+import{getDatabase,ref,get,set,child,update,remove}
+from "https://www.gstatic.com/firebasejs/9.13.0/firebase-database.js";
+const db = getDatabase();
+
+// Gets IDs
+
+var name1 = document.getElementById("name");
+var id1 = document.getElementById("id");
+var add1 = document.getElementById("add");
+var pn1 = document.getElementById("pn");
+var email1 = document.getElementById("email");
+
+var btn = document.getElementById("insert");
+var btn2 = document.getElementById("update");
+var btn3 = document.getElementById("search");
+var btn4 = document.getElementById("delete");
+// Button Click Event
+
+btn.addEventListener('click',InsertData);
+btn2.addEventListener('click',UpdateData);
+btn3.addEventListener('click',Search);
+btn4.addEventListener('click',Delete);
+// Insert Data Function
+
+function InsertData(){
+
+set(ref(db,"Users/"+id1.value),{
+Name: name1.value,
+Address: add1.value,
+PhoneNumber: pn1.value,
+Email: email1.value
+})
+.then(()=>{
+
+alert("Data Stored Successfully");
+
+})
+.catch(()=>{
+
+alert("Data Stored Unsuccessful"+error);
+
+})
+
+}
+
+// Data Update Function
+
+function UpdateData(){
+
+set(ref(db,"Users/"+id1.value),{
+Name: name1.value,
+Address: add1.value,
+PhoneNumber: pn1.value,
+Email: email1.value
+})
+.then(()=>{
+
+alert("Data Updated Successfully");
+
+})
+.catch(()=>{
+
+alert("Data Updated Unsuccessful"+error);
+
+})
+
+}
+
+// Search Data
+
+function Search(){
+
+const dbref = ref(db);
+
+get(child(dbref,"Users/"+id1.value)).then((snapshot)=>{
+if(snapshot.exists()){
+name1.value = snapshot.val().Name;
+email1.value = snapshot.val().Email;
+pn1.value = snapshot.val().PhoneNumber;
+add1.value = snapshot.val().Address;
+
+}
+else{
+    alert("No Data Found"); 
+}
+})
+.catch(()=>{
+
+alert("No Data Found"+error);
+
+})
+}
+
+//Delete Data
+
+function Delete(){
+    remove(ref(db,"Users/"+id1.value));
+    alert("Data Deleted");
+}
+
+  </script>
+
+
+
+</body>
+</html>
